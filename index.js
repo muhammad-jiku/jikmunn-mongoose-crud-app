@@ -1,5 +1,6 @@
 // dependencies
 const express = require('express');
+const mongoose = require('mongoose');
 
 //  app initialization
 const app = express();
@@ -7,6 +8,15 @@ const port = process.env.PORT || 4000;
 
 // middleware
 app.use(express.json());
+
+// database connection with mongoose
+mongoose
+  .connect('mongodb://localhost/jikmunn-mongoose-crud-app', {
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
+  })
+  .then(() => console.log('DB connected!!'))
+  .catch((err) => console.log(err));
 
 // default error handling
 const errorHandler = (err, req, res, next) => {
