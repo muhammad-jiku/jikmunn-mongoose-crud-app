@@ -12,7 +12,16 @@ router.get('/', async (req, res) => {});
 router.get('/:id', async (req, res) => {});
 
 // post todo
-router.post('/', async (req, res) => {});
+router.post('/', async (req, res) => {
+  const newTodo = new Todo(req.body);
+  await newTodo.save((err) => {
+    if (err) {
+      res.status(500).json({ error: 'There is a server side error!' });
+    } else {
+      res.status(200).json({ message: 'Todo added successfully!!' });
+    }
+  });
+});
 
 // post multiple todo
 router.post('/all', async (req, res) => {});
