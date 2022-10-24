@@ -1,6 +1,7 @@
 // dependencies
 const express = require('express');
 const mongoose = require('mongoose');
+const todoHandler = require('./routes/routeHandler/todoHandler');
 
 //  app initialization
 const app = express();
@@ -25,6 +26,14 @@ const errorHandler = (err, req, res, next) => {
   }
   res.status(500).json({ error: err });
 };
+
+// application routes
+app.use('/todo', todoHandler);
+
+// displaying message
+app.get('/', (req, res) => {
+  res.send('Welcome here!');
+});
 
 // listening to the poert
 app.listen(port, () => {
