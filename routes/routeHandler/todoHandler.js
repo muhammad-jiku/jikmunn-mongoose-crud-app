@@ -6,7 +6,19 @@ const todoSchema = require('../../models/schemas/todoSchema');
 const Todo = new mongoose.model('Todo', todoSchema);
 
 // get all todos
-router.get('/', async (req, res) => {});
+router.get('/', async (req, res) => {
+  await Todo.find({ status: 'active' }, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    } else {
+      res.status(200).json({
+        result: data,
+        message: 'Active todos are shown here successfully!!',
+      });
+    }
+  }).clone();
+});
 
 // get a todo by id
 router.get('/:id', async (req, res) => {});
@@ -36,15 +48,18 @@ router.post('/all', async (req, res) => {
 
 // update a todo by id
 router.put('/:id', async (req, res) => {
-  await Todo.updateOne(
+  const result = await Todo.findByIdAndUpdate(
     { _id: req.params.id },
     {
       $set: {
         status: 'active',
       },
     },
+    {
+      //   new: true,
+      //   useFindAndModify: false,
+    },
     (err) => {
-      console.log(err);
       if (err) {
         res.status(500).json({ error: 'There is a server side error!' });
       } else {
@@ -52,6 +67,7 @@ router.put('/:id', async (req, res) => {
       }
     }
   ).clone();
+  console.log(result);
 });
 
 // delete a todo by id
