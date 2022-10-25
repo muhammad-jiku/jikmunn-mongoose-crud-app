@@ -6,8 +6,9 @@ const todoSchema = require('../../models/schemas/todoSchema');
 const Todo = new mongoose.model('Todo', todoSchema);
 
 // get all todos
-router.get('/', async (req, res) => {
-  await Todo.find({ status: 'active' })
+// using callback function
+router.get('/', (req, res) => {
+  Todo.find({ status: 'active' })
     .select({
       _id: 0,
       __v: 0,
@@ -28,28 +29,27 @@ router.get('/', async (req, res) => {
 });
 
 // get a todo by id
+// using async await and try catch
 router.get('/:id', async (req, res) => {
-  await Todo.find({ _id: req.params.id })
-    .select({
+  try {
+    const data = await Todo.find({ _id: req.params.id }).select({
       __v: 0,
-    })
-    .exec((err, data) => {
-      if (err) {
-        console.log(err);
-        res.status(500).json({ error: 'There is a server side error!' });
-      } else {
-        res.status(200).json({
-          result: data,
-          message: 'SUCCESS!!',
-        });
-      }
     });
+    res.status(200).json({
+      result: data,
+      message: 'SUCCESS!!',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
 });
 
 // post todo
-router.post('/', async (req, res) => {
+// using callback function
+router.post('/', (req, res) => {
   const newTodo = new Todo(req.body);
-  await newTodo.save((err) => {
+  newTodo.save((err) => {
     if (err) {
       res.status(500).json({ error: 'There is a server side error!' });
     } else {
@@ -59,8 +59,9 @@ router.post('/', async (req, res) => {
 });
 
 // post multiple todo
-router.post('/all', async (req, res) => {
-  await Todo.insertMany(req.body, (err) => {
+// using callback function
+router.post('/all', (req, res) => {
+  Todo.insertMany(req.body, (err) => {
     if (err) {
       res.status(500).json({ error: 'There is a server side error!' });
     } else {
@@ -70,8 +71,9 @@ router.post('/all', async (req, res) => {
 });
 
 // update a todo by id
-router.put('/:id', async (req, res) => {
-  const result = await Todo.findByIdAndUpdate(
+// using callback function
+router.put('/:id', (req, res) => {
+  const result = Todo.findByIdAndUpdate(
     { _id: req.params.id },
     {
       $set: {
@@ -94,8 +96,9 @@ router.put('/:id', async (req, res) => {
 });
 
 // delete a todo by id
-router.delete('/:id', async (req, res) => {
-  await Todo.deleteOne({ _id: req.params.id }, (err) => {
+// using callback function
+router.delete('/:id', (req, res) => {
+  Todo.deleteOne({ _id: req.params.id }, (err) => {
     if (err) {
       console.log(err);
       res.status(500).json({ error: 'There is a server side error!' });
