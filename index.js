@@ -13,8 +13,8 @@ app.use(express.json());
 // database connection with mongoose
 mongoose
   .connect('mongodb://localhost/jikmunn-mongoose-crud-app', {
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
   .then(() => console.log('DB connected!!'))
   .catch((err) => console.log(err));
