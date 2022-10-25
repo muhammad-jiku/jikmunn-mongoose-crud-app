@@ -29,11 +29,33 @@ router.get('/', (req, res) => {
 });
 
 // get active todos
+// using async await and try catch
 router.get('/active', async (req, res) => {
+  try {
+    const todo = new Todo();
+    const data = await todo.findActive();
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
+// get all active todos
+// using callback
+router.get('/active-callback', (req, res) => {
   const todo = new Todo();
-  const data = await todo.findActive();
-  res.status(200).json({
-    data,
+  todo.findActiveCallback((err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    } else {
+      res.status(200).json({
+        data,
+      });
+    }
   });
 });
 
