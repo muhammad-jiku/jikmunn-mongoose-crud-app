@@ -73,6 +73,19 @@ router.get('/title', async (req, res) => {
   }
 });
 
+// GET TODOS BY LANGUAGE
+router.get('/titlee', async (req, res) => {
+  try {
+    const data = await Todo.find().byTitle('ho');
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
 // get a todo by id
 // using async await and try catch
 router.get('/:id', async (req, res) => {
