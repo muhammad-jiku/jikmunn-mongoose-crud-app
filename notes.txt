@@ -1,3 +1,6 @@
 To return Promise either we can use 
 1. async await and try catch
 2. callback function
+
+Instance methods vs statics methods
+1. To use instance method to call the function must be needed to create method of the Class. And static method uses Class to call the function.

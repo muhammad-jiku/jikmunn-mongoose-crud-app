@@ -59,6 +59,20 @@ router.get('/active-callback', (req, res) => {
   });
 });
 
+// get data based on title
+// using async await and try catch
+router.get('/title', async (req, res) => {
+  try {
+    const data = await Todo.findByTitle();
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
 // get a todo by id
 // using async await and try catch
 router.get('/:id', async (req, res) => {

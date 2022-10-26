@@ -16,13 +16,20 @@ const todoSchema = mongoose.Schema({
   },
 });
 
-// querying data thorugh methods process
+// querying data thorugh instance methods process
 todoSchema.methods = {
   findActive: function () {
     return mongoose.model('Todo').find({ status: 'active' });
   },
   findActiveCallback: function (cb) {
     return mongoose.model('Todo').find({ status: 'active' }, cb);
+  },
+};
+
+// static methods
+todoSchema.statics = {
+  findByTitle: function () {
+    return this.find({ title: /os/i });
   },
 };
 
