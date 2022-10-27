@@ -32,6 +32,9 @@ const errorHandler = (err, req, res, next) => {
 app.use('/todo', todoHandler);
 app.use('/user', userHandler);
 
+// applicatin error handling middleware
+app.use(errorHandler);
+
 // displaying message
 app.get('/', (req, res) => {
   res.send('Welcome here!');
