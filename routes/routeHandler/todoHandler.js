@@ -2,9 +2,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const checkSignIn = require('../../middlewares/checkSignIn');
-const router = express.Router();
 const todoSchema = require('../../models/schemas/todoSchema');
+const userSchema = require('../../models/schemas/userSchema');
+
+// constructors
 const Todo = new mongoose.model('Todo', todoSchema);
+const User = new mongoose.model('User', userSchema);
+
+// router setup
+const router = express.Router();
 
 // get all todos
 // using callback function
@@ -115,7 +121,19 @@ router.post('/', checkSignIn, async (req, res) => {
     user: req.userId,
   });
   try {
-    await newTodo.save();
+    const todo = await newTodo.save();
+
+    await User.updateOne(
+      {
+        _id: req.userId,
+      },
+      {
+        $push: {
+          todos: todo._id,
+        },
+      }
+    );
+
     res.status(200).json({ message: 'Todo added successfully!!' });
   } catch (err) {
     res.status(500).json({ error: 'There is a server side error!' });

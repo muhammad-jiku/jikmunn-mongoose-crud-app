@@ -4,9 +4,13 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const router = express.Router();
 const userSchema = require('../../models/schemas/userSchema');
+
+// constructors
 const User = new mongoose.model('User', userSchema);
+
+// router setup
+const router = express.Router();
 
 // Signing up
 // using callback function
