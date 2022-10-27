@@ -11,13 +11,14 @@ const Todo = new mongoose.model('Todo', todoSchema);
 router.get('/', checkSignIn, (req, res) => {
   console.log(req.username);
   console.log(req.userId);
-  Todo.find({ status: 'active' })
+  Todo.find({})
+    .populate('user', 'name username')
     .select({
       _id: 0,
       __v: 0,
       date: 0,
     })
-    .limit(2)
+    // .limit(2)
     .exec((err, data) => {
       if (err) {
         console.log(err);
@@ -25,7 +26,7 @@ router.get('/', checkSignIn, (req, res) => {
       } else {
         res.status(200).json({
           result: data,
-          message: 'Active todos are shown here successfully!!',
+          message: 'All todos are shown here successfully!!',
         });
       }
     });
@@ -107,16 +108,18 @@ router.get('/:id', async (req, res) => {
 });
 
 // post todo
-// using callback function
-router.post('/', (req, res) => {
-  const newTodo = new Todo(req.body);
-  newTodo.save((err) => {
-    if (err) {
-      res.status(500).json({ error: 'There is a server side error!' });
-    } else {
-      res.status(200).json({ message: 'Todo added successfully!!' });
-    }
+// using async await and try catch
+router.post('/', checkSignIn, async (req, res) => {
+  const newTodo = new Todo({
+    ...req.body,
+    user: req.userId,
   });
+  try {
+    await newTodo.save();
+    res.status(200).json({ message: 'Todo added successfully!!' });
+  } catch (err) {
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
 });
 
 // post multiple todo
