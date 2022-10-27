@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['active', 'inactive'],
+    enum: ['active', 'inactive'], // status of user
   },
   todos: [
     {

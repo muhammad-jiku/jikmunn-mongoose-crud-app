@@ -40,7 +40,7 @@ todoSchema.statics = {
 // query helpers
 todoSchema.query = {
   byTitle: function (title) {
-    return this.find({ title: new RegExp(title, 'i') }); // new RegExp()
+    return this.find({ title: new RegExp(title, 'i') }); // new RegExp() is constructor for regExp
   },
 };
 

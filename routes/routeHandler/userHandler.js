@@ -25,7 +25,7 @@ router.post('/sign-up', async (req, res) => {
     await newUser.save();
     res.status(200).json({ message: 'Signing up new user successfully!!' });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
 });
@@ -82,7 +82,7 @@ router.get('/all', async (req, res) => {
       message: 'Successful!!',
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
 });

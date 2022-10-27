@@ -15,8 +15,8 @@ const router = express.Router();
 // get all todos
 // using callback function
 router.get('/', checkSignIn, (req, res) => {
-  console.log(req.username);
-  console.log(req.userId);
+  // console.log(req.username);
+  // console.log(req.userId);
   Todo.find({})
     .populate('user', 'name username')
     .select({
@@ -27,7 +27,7 @@ router.get('/', checkSignIn, (req, res) => {
     // .limit(2)
     .exec((err, data) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({ error: 'There is a server side error!' });
       } else {
         res.status(200).json({
@@ -48,7 +48,7 @@ router.get('/active', async (req, res) => {
       data,
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
 });
@@ -59,7 +59,7 @@ router.get('/active-callback', (req, res) => {
   const todo = new Todo();
   todo.findActiveCallback((err, data) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({ error: 'There is a server side error!' });
     } else {
       res.status(200).json({
@@ -78,7 +78,7 @@ router.get('/title', async (req, res) => {
       data,
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
 });
@@ -91,7 +91,7 @@ router.get('/titlee', async (req, res) => {
       data,
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
 });
@@ -108,7 +108,7 @@ router.get('/:id', async (req, res) => {
       message: 'SUCCESS!!',
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
 });
@@ -174,7 +174,7 @@ router.put('/:id', (req, res) => {
       }
     }
   ).clone();
-  console.log(result);
+  // console.log(result);
 });
 
 // delete a todo by id
@@ -182,7 +182,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   Todo.deleteOne({ _id: req.params.id }, (err) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({ error: 'There is a server side error!' });
     } else {
       res.status(200).json({
