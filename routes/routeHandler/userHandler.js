@@ -30,7 +30,8 @@ router.post('/sign-up', async (req, res) => {
 // using callback function
 router.post('/sign-in', async (req, res) => {
   try {
-    const user = User.find({ username: req.body.username });
+    const user = await User.find({ username: req.body.username });
+
     if (user && user.length) {
       const isValidPassword = await bcrypt.compare(
         req.body.password,
@@ -55,15 +56,12 @@ router.post('/sign-in', async (req, res) => {
           message: 'Sign-in successful!!',
         });
       } else {
-        console.log(err);
         res.status(401).json({ error: 'Authentication failed!' });
       }
     } else {
-      console.log(err);
       res.status(401).json({ error: 'Authentication failed!' });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
 });
